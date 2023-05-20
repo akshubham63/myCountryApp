@@ -1,0 +1,11 @@
+.btn-form-primary{
+    background-image: linear-gradient(to left,rgba(116, 235, 213, 1),rgba(159, 172, 230, 1));
+    color: $color-white;
+    &:hover,
+    &:active,
+    &:focus{
+        background-image: linear-gradient(to left,rgba(116, 235, 213, 0.8),rgba(159, 172, 230, 0.8));
+        box-shadow: 2px 2px 20px 1px rgba(#ededed, 0.5);
+        color: #fff;
+    }
+}

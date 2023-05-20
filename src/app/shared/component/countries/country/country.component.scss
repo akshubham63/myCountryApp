@@ -1,0 +1,48 @@
+@import '../../../../../assets/scss/utilities/mixin';
+.country{
+    width: 100%;
+    height: 15rem;
+    overflow: hidden;
+    letter-spacing: 2px;
+    word-spacing: 1px;
+    border-radius: 1rem;
+    border: 0;
+    .country-body{
+        padding: 0;
+        .country-backdrop{
+            background-image: linear-gradient(rgba(#000, 0.5), rgba(#000, 0.5));
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: none;
+        }
+        .country-details{
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: none;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            height: 100%;
+            margin-left: 1rem;
+            z-index: 1;
+            color: white;
+            transition: all 1s ease-in-out;
+            transform: translateY(-15rem);
+        }
+    }
+    &:hover .country-body .country-details,
+    &:active .country-body .country-details,
+    &:focus .country-body .country-details{
+        transform: translateY(0rem);
+    }
+
+    &:hover .country-body .country-backdrop,
+    &:active .country-body .country-backdrop,
+    &:focus .country-body .country-backdrop{
+        display: block;
+    }
+}

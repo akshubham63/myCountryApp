@@ -1,0 +1,65 @@
+<div class="row">
+    <div class="col-md-12 p-0">
+
+        <div class="userForm">
+
+            <form class="form" (ngSubmit)="onLoginSubmit(loginForm)" #loginForm="ngForm">
+
+                <h1 class="form-heading mb-5 text-center">Login Form</h1>
+
+                <div class="form-group mb-2">
+                    <label class="sr-only" for="email">Email</label>
+                    <div class="input-group mb-4">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <fa-icon [icon]="faUser"></fa-icon>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control i-control" id="email" placeholder="Enter Email" name="email" required ngModel>
+                    </div>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label class="sr-only" for="password">Password</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <fa-icon [icon]="faLock"></fa-icon>
+                            </div>
+                        </div>
+                        <input [type]="isShowPass ? 'text' : 'password'" class="form-control i-control" id="password" placeholder="Enter Password" name="password" required minlength="6" ngModel>
+                        <span class="eye-icon p-2" (click)="isShowPass = !isShowPass">
+                            <fa-icon [icon]="isShowPass ? faEye : faEyeSlash"></fa-icon>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="check-box text-right mb-4">
+                    <div class="forgetpassword">
+                        <a routerLink="/forgetPassword">
+                            Forget Password?
+                        </a>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-form-primary text-uppercase w-100 mb-4" [disabled]="!loginForm.valid && loginForm.dirty">Login</button>
+
+                <button class="btn btn-danger w-100 text-uppercase mb-4" routerLink="/sign-up">sign up</button>
+
+                <p class="text-center text-capitalize">-- sign up with accounts --</p>
+
+                <div class="social-links">
+                    <a class="links" (click)="onGoogleLogin()">
+                        <fa-icon [icon]="faGoogle" class="text-danger"></fa-icon>
+                    </a>
+                    <a class="links" (click)="onGitLogin()">
+                        <fa-icon [icon]="faGithub" style="color: #171515"></fa-icon>
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>

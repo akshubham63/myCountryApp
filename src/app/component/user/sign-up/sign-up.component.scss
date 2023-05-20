@@ -1,0 +1,20 @@
+.form{
+    width: 50%;
+}
+
+.termsAndServices{
+    &:hover,
+    &:active,
+    &:focus{
+        text-decoration: underline;
+    }
+}
+
+.eye-icon{
+    position: absolute;
+    right: 3%;
+    top: 35%;
+    font-size: 1.3rem;
+    padding: 0.5rem;
+    cursor: pointer;
+}

@@ -1,0 +1,19 @@
+<div class="card country">
+    <div class="card-body country-body">
+        <div class="country-img">
+            <img [src]="countryObj.flag" [alt]="countryObj.name" class="w-100 h-100" style="object-fit: cover;">
+        </div>
+        <div class="country-backdrop"></div>
+        <div class="country-details">
+            <h3 class="country-heading text-uppercase font-weight-lighter">{{ countryObj.name }}</h3>
+            <p class="languages text-capitalize">
+                <span class="font-weight-bold">languages: </span>
+                <span>{{ countryObj.languages }}</span>
+            </p>
+            <p class="populations text-capitalize">
+                <span class="font-weight-bold">populations: </span>
+                <span>{{ countryObj.population }}</span>
+            </p>
+        </div>
+    </div>
+</div>

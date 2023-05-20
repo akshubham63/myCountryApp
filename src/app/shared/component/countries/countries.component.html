@@ -1,0 +1,7 @@
+<div class="row countriesContainer pt-3">
+    <div class="col-md-3 mb-3" *ngFor="let country of countriesArr">
+        <a>
+            <app-country [countryObj]="country"></app-country>
+        </a>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+.userForm{
+    @include content-center;
+    height: 92.5vh;
+    background-image: linear-gradient(to left,rgba(116, 235, 213, 0.2),rgba(159, 172, 230, 0.2)), url('../../images/bg-form.avif');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    .form{
+        padding: 2.5rem 3rem;
+        background-color: #fff;
+        border-radius: 1rem;
+        letter-spacing: 2px;
+        
+        .i-control{
+            height: 3rem;
+            &::placeholder{
+                letter-spacing: 2px;
+            }
+        }
+        .social-links{
+            font-size: 2rem;
+            @include content-center;
+        }
+        .links{
+            margin: 0 1rem;
+            cursor: pointer;
+            color: #010101;
+        }
+        .btn{
+            letter-spacing: 2px;
+        }
+    }
+}

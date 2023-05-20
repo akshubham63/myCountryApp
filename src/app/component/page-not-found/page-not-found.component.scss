@@ -1,0 +1,23 @@
+@import '../../../assets/scss/utilities/mixin';
+.errorPage{
+    @include content-center;
+    height: 90vh;
+    flex-direction: column;
+    background-color: #101010;
+    color: #ececec;
+    letter-spacing: 1px;
+    font-size: 1rem;
+
+    .errorPage-heading{
+        font-size: 6rem;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .info{
+        @include content-center;
+        flex-direction: column;
+        width: 50%;
+        text-align: center;
+    }
+}

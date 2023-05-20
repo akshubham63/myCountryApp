@@ -1,0 +1,78 @@
+<div class="row">
+    <div class="col-md-12 p-0">
+
+        <div class="userForm">
+
+            <form class="form" (ngSubmit)="onSignUp()" [formGroup]="mySignUpForm">
+                <div class="form-row">
+                    <div class="col">
+                        <label for="firstName"></label>
+                        <input type="text" class="form-control i-control" id="firstName" placeholder="First Name" formControlName="fname">
+                    </div>
+
+                    <div class="col">
+                        <label for="lastName"></label>
+                        <input type="text" class="form-control i-control" id="lastName" placeholder="Last Name" formControlName="lname">
+                    </div>
+                </div>
+
+                <div class="form-row mb-3">
+                    <div class="col">
+                        <label for="email"></label>
+                        <input type="text" class="form-control i-control" id="email" placeholder="Enter Email" formControlName="email">
+                    </div>
+
+                    <div class="col">
+                        <label for="contact"></label>
+                        <input type="number" class="form-control i-control" id="contact" placeholder="Contact" formControlName="contact">
+                    </div>
+                </div>
+
+                <div class="form-row mb-3">
+                    <div class="col">
+                        <label for="signupPassword"></label>
+                        <input [type]="isShowPass ? 'text' : 'password'" class="form-control i-control" id="signupPassword" placeholder="Enter Password" formControlName="password">
+                        <span class="eye-icon">
+                            <fa-icon [icon]="isShowPass ? faEyeSlash : faEye" (click)="isShowPass = !isShowPass"></fa-icon>
+                        </span>
+                    </div>
+                    <div class="col">
+                        <label for="signupConfirmPass"></label>
+                        <input [type]="isShowConfirmPass ? 'text' : 'password'" class="form-control i-control" id="signupConfirmPass" placeholder="Enter Confirm Password" formControlName="confirmPass">
+                        <span class="eye-icon">
+                            <fa-icon [icon]="isShowConfirmPass ? faEyeSlash : faEye" (click)="isShowConfirmPass = !isShowConfirmPass"></fa-icon>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-row mb-3">
+                    <div class="col py-2 ml-2">
+                        <span class="font-weight-normal" style="font-size: 1.2rem;">Gender: </span>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="male" value="male" formControlName="gender">
+                            <label class="form-check-label" for="male">Male</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="female" value="female" formControlName="gender">
+                            <label class="form-check-label" for="female">Female</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="other" value="other" formControlName="gender">
+                            <label class="form-check-label" for="female">Other</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group form-check ml-3 mb-4">
+                    <input type="checkbox" class="form-check-input" id="isTermAccept" formControlName="isTermAccepted">
+                    <label class="form-check-label" for="isTermAccept">I agree all the statements in <em><a class="termsAndServices">Terms and Services</a></em></label>
+                </div>
+
+                <button class="btn btn-danger text-uppercase w-100 mb-3" [disabled]="!isFormValid">sign up</button>
+                <p class="text-capitalize text-center">Already have an account? <a class="termsAndServices" routerLink="/login">login</a></p>
+            </form>
+
+        </div>
+
+    </div>
+</div>
