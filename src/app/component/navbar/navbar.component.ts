@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { faSignOutAlt, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/shared/service/auth.service';
+import { faUserCircle } from '@fortawesome/free-regular-svg-icons';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'; 
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
 
   isShowProfile: boolean = false;
   faSignOutAlt = faSignOutAlt;
@@ -30,10 +31,9 @@ export class NavbarComponent implements OnInit {
 
   userProfileShow(){
     this.isShowProfile = !this.isShowProfile;
-  }
+  } 
 
   ngOnDestroy(): void {
     this.userSub.unsubscribe();
   }
-
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons';
-import { faEye } from '@fortawesome/free-regular-svg-icons';
-import { faEyeSlash, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-regular-svg-icons';
+import { faLock, faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faGoogle, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { AuthService } from 'src/app/shared/service/auth.service';
 
 @Component({
@@ -37,5 +37,4 @@ export class LoginComponent implements OnInit {
   onGitLogin(){
     this._authService.onGitHubLogin();
   }
-
 }

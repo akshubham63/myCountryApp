@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ICountry } from 'src/app/shared/module/interface';
+import { ICountry } from 'src/app/shared/modle/interface';
 
 @Component({
   selector: 'app-country',
@@ -12,5 +12,4 @@ export class CountryComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

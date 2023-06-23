@@ -3,144 +3,167 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { UserDetails } from 'src/app/component/user/user.model';
+import { SweetAlertService } from './sweetAlert.service';
 import { GoogleAuthProvider, GithubAuthProvider } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
-export class AuthService {
-  user: BehaviorSubject<UserDetails | null> = new BehaviorSubject<UserDetails | null>(null);
-  expirationTimer!: any;
 
-  constructor(private _fireAuth: AngularFireAuth, 
-      private _router: Router){}
+export class AuthService implements OnInit{
+    user: BehaviorSubject<UserDetails | null> = new BehaviorSubject<UserDetails | null>(null);
+    expirationTimer!: any;
 
-  ngOnInit(): void {
-      
-  }
+    constructor(private _fireAuth: AngularFireAuth, 
+        private _router: Router,
+        private _sweetAlert: SweetAlertService,
+        private _firestore: AngularFirestore){}
 
-  // create user instance
-
-  createUser(uid: string, email: string, token: string, isEmailVerified: boolean, expirationDate: number){
-      const user = new UserDetails(uid, email, token, isEmailVerified, expirationDate);
-      this.user.next(user);
-      return user;
-  }
-
-  // login 
-
-  async onLogin(email: string, password: string){
-
-      try{
-          let loginUser = await this._fireAuth.signInWithEmailAndPassword(email, password);
-          this._onSuccessfullLoggedIN();
-          console.log(loginUser);
-          
-      }catch(err){
-          this._router.navigate(['/login']);
-          this.user.next(null);
-      }
-  }
-
-  // sign-up
-
-  async onSignup(email: string, password: string){
-      try{
-          let userAccount = await this._fireAuth.createUserWithEmailAndPassword(email, password);
-      }catch(err){
+    ngOnInit(): void {
         
-      }
-  }
+    }
 
-  // logout
+    // create user instance
 
-  onLogout(){
-      return this._fireAuth.signOut()
-          .then(res => {
-              this.user.next(null);
-              localStorage.removeItem('user');
-              this._router.navigate(['/login']);
-              if(this.expirationTimer){
-                  clearTimeout(this.expirationTimer);
-              }
-              this.expirationTimer = null;
-          })
-          .catch(err => {
-              this.user.next(null);
-              localStorage.removeItem('user');
-              this._router.navigate(['/login']);
-          });
-  }
+    createUser(uid: string, email: string, token: string, isEmailVerified: boolean, expirationDate: number){
+        const user = new UserDetails(uid, email, token, isEmailVerified, expirationDate);
+        this.user.next(user);
+        return user;
+    }
+
+    // login 
+
+    async onLogin(email: string, password: string){
+
+        try{
+            let loginUser = await this._fireAuth.signInWithEmailAndPassword(email, password);
+            this._onSuccessfullLoggedIN();
+            console.log(loginUser);
+            
+        }catch(err){
+            this._router.navigate(['/login']);
+            this.user.next(null);
+        }
+    }
+
+    // sign-up
+
+    async onSignup(email: string, password: string){
+        try{
+            let userAccount = await this._fireAuth.createUserWithEmailAndPassword(email, password);
+            let successAlert = await this._sweetAlert.onSucessSignUpAlert();
+            if(userAccount.user && successAlert.value && successAlert.isConfirmed){
+                this._router.navigate(['/login']);
+            }
+        }catch(err){
+            let creationErr = await this._sweetAlert.onUnSuccessSignUpAlert();
+            if(creationErr.isConfirmed && creationErr.value){
+                this._router.navigate(['/sign-up']);
+            }
+        }
+    }
+
+    // logout
+
+    onLogout(){
+        return this._fireAuth.signOut()
+            .then(res => {
+                this.user.next(null);
+                localStorage.removeItem('user');
+                this._router.navigate(['/login']);
+                if(this.expirationTimer){
+                    clearTimeout(this.expirationTimer);
+                }
+                this.expirationTimer = null;
+            })
+            .catch(err => {
+                this.user.next(null);
+                localStorage.removeItem('user');
+                this._router.navigate(['/login']);
+            });
+    }
 
 
-  //reset password
+    //reset password
 
-  resetPass(email: string){
-      return this._fireAuth.sendPasswordResetEmail(email);
-  }
+    resetPass(email: string){
+        return this._fireAuth.sendPasswordResetEmail(email);
+    }
 
-  // email verification
+    // email verification
 
-  // emailVerification(user: any){
-  
-  // }
+    // emailVerification(user: any){
+    
+    // }
 
-  // google login 
+    // google login 
 
-  async onGoogleLogin(){
-      try{
-          let userAccount = await this._fireAuth.signInWithPopup(new GoogleAuthProvider);
-          this._onSuccessfullLoggedIN();
-      }catch(err){
-         
-      }     
-  }
+    async onGoogleLogin(){
+        try{
+            let userAccount = await this._fireAuth.signInWithPopup(new GoogleAuthProvider);
+            this._onSuccessfullLoggedIN();
+        }catch(err){
+            let onLoginErr = await this._sweetAlert.onUnSuccessSignUpAlert();
+            if(onLoginErr.isConfirmed){
+                this._router.navigate(['/login']);
+            }
+        }     
+    }
 
-  // gitHub Login
+    // gitHub Login
 
-  async onGitHubLogin(){
-      try{
-          let userAccount = await this._fireAuth.signInWithPopup(new GithubAuthProvider);
-          this._onSuccessfullLoggedIN();
-      }catch(err){
-          
-      }
-  }
+    async onGitHubLogin(){
+        try{
+            let userAccount = await this._fireAuth.signInWithPopup(new GithubAuthProvider);
+            this._onSuccessfullLoggedIN();
+        }catch(err){
+            let onLoginErr = await this._sweetAlert.onUnSuccessSignUpAlert();
+            if(onLoginErr.isConfirmed){
+                this._router.navigate(['/login']);
+            }
+        }
+    }
 
-  // Auto Logged in
+    // Auto Logged in
 
-  onAutoLoggedin(){
-      const userData = JSON.parse(localStorage.getItem('user')!);
-      if(!userData){
-          return;
-      }
-      const loadUser = this.createUser(userData._uid, userData.email, userData._token, userData.isEmailVerified, userData.expirationTime);
-      this.user.next(loadUser);
-      this.onAutoLoggedout(userData.expirationTime - new Date().getTime());
-  }
+    onAutoLoggedin(){
+        const userData = JSON.parse(localStorage.getItem('user')!);
+        if(!userData){
+            return;
+        }
+        const loadUser = this.createUser(userData._uid, userData.email, userData._token, userData.isEmailVerified, userData.expirationTime);
+        this.user.next(loadUser);
+        this.onAutoLoggedout(userData.expirationTime - new Date().getTime());
+    }
 
-  // Auto Logged out
+    // Auto Logged out
 
-  onAutoLoggedout(expirationDuration: number){
-      this.expirationTimer = setTimeout(() => {
-          this.onLogout();
-      }, expirationDuration);
-  }
+    onAutoLoggedout(expirationDuration: number){
+        this.expirationTimer = setTimeout(() => {
+            this.onLogout();
+        }, expirationDuration);
+    }
 
-  // After successfull logged in
+    // After successfull logged in
 
-  private async _onSuccessfullLoggedIN(){
-      try{
-          let currentUser = await this._fireAuth.currentUser;
-          let userData = await currentUser?.getIdTokenResult(true);
-          let token = userData?.token;
-          let expirationTime: number = (new Date(userData?.expirationTime!).getTime() + 3600 * 1000);
-          let user = this.createUser(currentUser?.uid!, currentUser?.email!, token!, currentUser?.emailVerified!, expirationTime!);
-          this.onAutoLoggedout(3600 * 1000); // in 1 hrs
-          localStorage.setItem('user', JSON.stringify(user));
-          this._router.navigate(['/home']);
-      }catch(err){
-          
-      }
-  }
+    private async _onSuccessfullLoggedIN(){
+        try{
+            let currentUser = await this._fireAuth.currentUser;
+            let userData = await currentUser?.getIdTokenResult(true);
+            let token = userData?.token;
+            let expirationTime: number = (new Date(userData?.expirationTime!).getTime() + 3600 * 1000);
+            let user = this.createUser(currentUser?.uid!, currentUser?.email!, token!, currentUser?.emailVerified!, expirationTime!);
+            this.onAutoLoggedout(3600 * 1000); // in 1 hrs
+            localStorage.setItem('user', JSON.stringify(user));
+            this._router.navigate(['/home']);
+        }catch(err){
+            let onLoginErr = await this._sweetAlert.onUnSuccessSignUpAlert();
+            if(onLoginErr.isConfirmed){
+                this._router.navigate(['/login']);
+            }
+        }
+    }
+
+    
 }

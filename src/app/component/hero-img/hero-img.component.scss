@@ -1,0 +1,24 @@
+.heroImg{
+    height: 91.2vh;
+    background-image: linear-gradient(rgba(#000, 0.3), rgba(#000, 0.3)), url('../../../assets/images/world_map_img.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.input-container{
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    input{
+        border-radius: 2rem;
+        padding: 1.5rem;
+        &::placeholder{
+            text-transform: capitalize;
+            letter-spacing: 0.1rem;
+            font-size: 0.8rem;
+        }
+    }
+}

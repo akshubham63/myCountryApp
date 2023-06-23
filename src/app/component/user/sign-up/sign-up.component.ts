@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { AuthService } from 'src/app/shared/service/auth.service';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ICountry } from '../../module/interface';
-import { CountryDetailsService } from '../../service/country-details.service';
+import { ICountry } from '../../modle/interface';
+import { CountryDataService } from '../../service/countryArr.service';
 
 @Component({
   selector: 'app-countries',
@@ -8,9 +8,10 @@ import { CountryDetailsService } from '../../service/country-details.service';
   styleUrls: ['./countries.component.scss']
 })
 export class CountriesComponent implements OnInit {
-  countriesArr: Array<ICountry> = this._countriesDetailsService.countryArr;
-  constructor(private _countriesDetailsService: CountryDetailsService) { }
+  countriesArr: Array<ICountry> = this._countriesService.countryArr;
+  constructor(private _countriesService: CountryDataService) { }
 
   ngOnInit(): void {
   }
+
 }
